@@ -1,0 +1,47 @@
+﻿@page "/employees"
+
+@using System.ComponentModel.DataAnnotations
+@using EmpApp.Components.Data
+@using EmpApp.Components.Models
+@using EmpApp.Components.Services
+@inject IEmployeeService EmployeeService
+
+<h1>Employees</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>EmployeeID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>DOB</th>
+            <th>Active</th>
+            <th>Title ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in employees)
+        {
+            <tr>
+                <td>@emp.EmployeeID</td>
+                <td>@emp.FirstName</td>
+                <td>@emp.LastName</td>
+                <td>@emp.DOB.ToShortDateString()</td>
+                <td>@(emp.IsActive ? "Yes" : "No")</td>
+                <td>@emp.EmployeeTitleID</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code
+{
+    private EmployeeDto Employee = new EmployeeDto();
+
+    private IEnumerable<EmployeeDto> employees = Enumerable.Empty<EmployeeDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await EmployeeService.GetEmployeesAsync();
+    }
+}
