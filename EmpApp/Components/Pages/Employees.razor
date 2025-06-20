@@ -6,7 +6,6 @@
 @using EmpApp.Components.Services
 @inject IEmployeeService EmployeeService
 @inject NavigationManager NavigationManager
-@inject IJSRuntime JS
 
 <h1>Employees</h1>
 
@@ -51,10 +50,8 @@
         employees = await EmployeeService.GetEmployeesAsync();
     }
 
-    private async Task EditEmployee(int employeeId)
+    private void EditEmployee(int employeeId)
     {
-        Console.WriteLine("Button clicked!");
-        await JS.InvokeVoidAsync("alert", $"EditEmployee called for ID: {employeeId}");
         NavigationManager.NavigateTo($"/employees/edit/{employeeId}");
     }
 }
