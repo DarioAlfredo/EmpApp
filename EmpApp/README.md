@@ -12,7 +12,7 @@
 1. Open your SQL management tool (e.g., Visual Studio SQL Server Object Explorer or Azure Data Studio).
 2. Create a new database (e.g., `EmployeeDb`).
 3. Open a new SQL query window connected to your new database.
-4. Run the provided SQL scripts in this order:
+4. Run the provided SQL scripts inside EmpApp\database\* in this order:
     - All table creation scripts (e.g., `EmployeeTitle`, `Employee`, etc.)
     - All stored procedure scripts
 5. Verify that tables and stored procedures are created.
@@ -48,7 +48,7 @@
 
 - If you get database connection errors, double-check your connection string and SQL Server instance.
 - Make sure your SQL Server is running and accessible.
-- If you need to re-do the database, re-run the SQL scripts inside the \database folder.
+  - If you need to re-do the database, re-run the Stored Procedures and Tables SQL scripts inside EmpApp\database folder.
 
 ---
 
