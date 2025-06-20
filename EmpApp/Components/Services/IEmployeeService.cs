@@ -5,5 +5,7 @@ namespace EmpApp.Components.Services
     public interface IEmployeeService
     {
         Task<IEnumerable<EmployeeDto>> GetEmployeesAsync();
+        Task<EmployeeDto?> GetEmployeeByIdAsync(int id);
+        Task UpdateEmployeeAsync(EmployeeDto employee);
     }
 }

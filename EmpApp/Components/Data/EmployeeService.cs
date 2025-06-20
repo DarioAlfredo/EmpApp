@@ -15,5 +15,15 @@ namespace EmpApp.Components.Data
         {
             return await _employeeRepository.GetEmployeesAsync();
         }
+
+        public async Task<EmployeeDto?> GetEmployeeByIdAsync(int id)
+        {
+            return await _employeeRepository.GetEmployeeByIdAsync(id);
+        }
+
+        public async Task UpdateEmployeeAsync(EmployeeDto employee)
+        {
+            await _employeeRepository.UpdateEmployeeAsync(employee);
+        }
     }
 }

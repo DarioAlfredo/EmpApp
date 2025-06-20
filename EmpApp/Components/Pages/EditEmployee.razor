@@ -1,0 +1,68 @@
+@page "/employees/edit/{EmployeeId:int}"
+
+@using EmpApp.Components.Models
+@using EmpApp.Components.Services
+@inject IEmployeeService EmployeeService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Employee</h3>
+
+@if (employee == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="employee" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <label>First Name</label>
+            <InputText class="form-control" @bind-Value="employee.FirstName" />
+        </div>
+        <div class="mb-3">
+            <label>Last Name</label>
+            <InputText class="form-control" @bind-Value="employee.LastName" />
+        </div>
+        <div class="mb-3">
+            <label>Date of Birth</label>
+            <InputDate class="form-control" @bind-Value="employee.DOB" />
+        </div>
+        <div class="mb-3">
+            <label>Active</label>
+            <InputCheckbox class="form-check-input" @bind-Value="employee.IsActive" />
+        </div>
+        <div class="mb-3">
+            <label>Title</label>
+            <InputText class="form-control" @bind-Value="employee.EmployeeTitle" />
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="GoBack">Cancel</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int EmployeeId { get; set; }
+
+    private EmployeeDto? employee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employee = await EmployeeService.GetEmployeeByIdAsync(EmployeeId);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (employee != null)
+        {
+            await EmployeeService.UpdateEmployeeAsync(employee);
+            NavigationManager.NavigateTo("/employees");
+        }
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/employees");
+    }
+}

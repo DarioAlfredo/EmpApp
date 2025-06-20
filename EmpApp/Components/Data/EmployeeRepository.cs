@@ -15,4 +15,29 @@ public class EmployeeRepository : IEmployeeRepository
         using var conn = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
         return await conn.QueryAsync<EmployeeDto>("GetEmployeesWithTitles", commandType: CommandType.StoredProcedure);
     }
+
+    public async Task<EmployeeDto?> GetEmployeeByIdAsync(int id)
+    {
+        using var conn = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+        var result = await conn.QueryFirstOrDefaultAsync<EmployeeDto>(
+            "GetEmployeeById", new { EmployeeID = id }, commandType: CommandType.StoredProcedure);
+        return result;
+    }
+
+    public async Task UpdateEmployeeAsync(EmployeeDto employee)
+    {
+        using var conn = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+        await conn.ExecuteAsync(
+            "UpdateEmployee",
+            new
+            {
+                employee.EmployeeID,
+                employee.FirstName,
+                employee.LastName,
+                employee.DOB,
+                employee.IsActive,
+                employee.EmployeeTitleID
+            },
+            commandType: CommandType.StoredProcedure);
+    }
 }

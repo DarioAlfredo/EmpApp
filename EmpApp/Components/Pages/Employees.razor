@@ -5,18 +5,21 @@
 @using EmpApp.Components.Models
 @using EmpApp.Components.Services
 @inject IEmployeeService EmployeeService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 <h1>Employees</h1>
 
 <table class="table">
     <thead>
         <tr>
-            <th>EmployeeID</th>
+            <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>DOB</th>
             <th>Active</th>
-            <th>Title ID</th>
+            <th>Title</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +31,10 @@
                 <td>@emp.LastName</td>
                 <td>@emp.DOB.ToShortDateString()</td>
                 <td>@(emp.IsActive ? "Yes" : "No")</td>
-                <td>@emp.EmployeeTitleID</td>
+                <td>@emp.EmployeeTitle</td>
+                <td>
+                    <button type="button" class="btn btn-primary" @onclick="() => EditEmployee(emp.EmployeeID)">Edit</button>
+                </td>
             </tr>
         }
     </tbody>
@@ -43,5 +49,12 @@
     protected override async Task OnInitializedAsync()
     {
         employees = await EmployeeService.GetEmployeesAsync();
+    }
+
+    private async Task EditEmployee(int employeeId)
+    {
+        Console.WriteLine("Button clicked!");
+        await JS.InvokeVoidAsync("alert", $"EditEmployee called for ID: {employeeId}");
+        NavigationManager.NavigateTo($"/employees/edit/{employeeId}");
     }
 }
