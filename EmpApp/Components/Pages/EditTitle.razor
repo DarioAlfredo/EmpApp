@@ -1,0 +1,53 @@
+@page "/titles/edit/{TitleId:int}"
+
+@using EmpApp.Components.Models
+@using EmpApp.Components.Services.Title
+@inject ITitleService TitleService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Title</h3>
+
+@if (title == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="title" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <label>Description</label>
+            <InputText class="form-control" @bind-Value="title.Descr" />
+            <ValidationMessage For="@(() => title.Descr)" />
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="GoBack">Cancel</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int TitleId { get; set; }
+
+    private TitleDto? title;
+
+    protected override async Task OnInitializedAsync()
+    {
+        title = await TitleService.GetTitleByIdAsync(TitleId);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (title != null)
+        {
+            await TitleService.UpdateTitleAsync(title);
+            NavigationManager.NavigateTo("/titles");
+        }
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/titles");
+    }
+}

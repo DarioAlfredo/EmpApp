@@ -14,5 +14,25 @@ namespace EmpApp.Components.Services.Title
         {
             return await _titleRepository.GetTitlesAsync();
         }
+
+        public async Task<TitleDto?> GetTitleByIdAsync(int id)
+        {
+            return await _titleRepository.GetTitleByIdAsync(id);
+        }
+
+        public async Task AddTitleAsync(TitleDto title)
+        {
+            await _titleRepository.AddTitleAsync(title);
+        }
+
+        public async Task UpdateTitleAsync(TitleDto title)
+        {
+            await _titleRepository.UpdateTitleAsync(title);
+        }
+
+        public async Task DeleteTitleAsync(int id)
+        {
+            await _titleRepository.DeleteTitleAsync(id);
+        }
     }
 }
