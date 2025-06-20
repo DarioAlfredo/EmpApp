@@ -1,5 +1,6 @@
 using EmpApp.Components;
 using EmpApp.Components.Services;
+using EmpApp.Components.Services.Title;
 using EmpApp.Components.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<ITitleService, TitleService>();
+builder.Services.AddScoped<ITitleRepository, TitleRepository>();
 
 var app = builder.Build();
 

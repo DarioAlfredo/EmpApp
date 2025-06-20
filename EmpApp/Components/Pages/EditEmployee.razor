@@ -2,18 +2,20 @@
 
 @using EmpApp.Components.Models
 @using EmpApp.Components.Services
+@using EmpApp.Components.Services.Title
 @inject IEmployeeService EmployeeService
+@inject ITitleService TitleService
 @inject NavigationManager NavigationManager
 
 <h3>Edit Employee</h3>
 
-@if (employee == null)
+@if (employee == null || titles == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <EditForm Model="employee" OnValidSubmit="HandleValidSubmit">
+    <EditForm Model="employee" OnValidSubmit="HandleValidSubmit" FormName="EmployeeEditForm">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="mb-3">
@@ -34,7 +36,13 @@ else
         </div>
         <div class="mb-3">
             <label>Title</label>
-            <InputText class="form-control" @bind-Value="employee.EmployeeTitle" />
+            <InputSelect title="EmployeeTitle" class="form-control" @bind-Value="employee.EmployeeTitleID">
+                <option value="">-- Select Title --</option>
+                @foreach (var title in titles)
+                {
+                    <option value="@title.EmployeeTitleID" selected="@(employee.EmployeeTitleID == title.EmployeeTitleID)">@title.Descr</option>
+                }
+            </InputSelect>
         </div>
         <button type="submit" class="btn btn-success">Save</button>
         <button type="button" class="btn btn-secondary ms-2" @onclick="GoBack">Cancel</button>
@@ -46,10 +54,17 @@ else
     public int EmployeeId { get; set; }
 
     private EmployeeDto? employee;
+    private List<TitleDto>? titles;
 
     protected override async Task OnInitializedAsync()
     {
-        employee = await EmployeeService.GetEmployeeByIdAsync(EmployeeId);
+        var employeeTask = EmployeeService.GetEmployeeByIdAsync(EmployeeId);
+        var titlesTask = TitleService.GetTitlesAsync();
+        await Task.WhenAll(employeeTask, titlesTask);
+        employee = await employeeTask;
+        titles = (await titlesTask).ToList();
+
+        
     }
 
     private async Task HandleValidSubmit()
