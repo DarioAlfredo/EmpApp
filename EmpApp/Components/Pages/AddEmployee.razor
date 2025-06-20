@@ -21,14 +21,17 @@ else
         <div class="mb-3">
             <label>First Name</label>
             <InputText class="form-control" @bind-Value="employee.FirstName" />
+            <ValidationMessage For="@(() => employee.FirstName)" />
         </div>
         <div class="mb-3">
             <label>Last Name</label>
             <InputText class="form-control" @bind-Value="employee.LastName" />
+            <ValidationMessage For="@(() => employee.LastName)" />
         </div>
         <div class="mb-3">
             <label>Date of Birth</label>
             <InputDate class="form-control" @bind-Value="employee.DOB" />
+            <ValidationMessage For="@(() => employee.DOB)" />
         </div>
         <div class="mb-3">
             <label>Active</label>
@@ -43,6 +46,7 @@ else
                     <option value="@title.EmployeeTitleID">@title.Descr</option>
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => employee.EmployeeTitleID)" />
         </div>
         <button type="submit" class="btn btn-success">Save</button>
         <button type="button" class="btn btn-secondary ms-2" @onclick="GoBack">Cancel</button>
