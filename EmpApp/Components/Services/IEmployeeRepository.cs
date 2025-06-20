@@ -7,5 +7,6 @@ namespace EmpApp.Components.Services
         Task<IEnumerable<EmployeeDto>> GetEmployeesAsync();
         Task<EmployeeDto?> GetEmployeeByIdAsync(int id);
         Task UpdateEmployeeAsync(EmployeeDto employee);
+        Task CreateEmployeeAsync(EmployeeDto employee);
     }
 }

@@ -40,4 +40,20 @@ public class EmployeeRepository : IEmployeeRepository
             },
             commandType: CommandType.StoredProcedure);
     }
+
+    public async Task CreateEmployeeAsync(EmployeeDto employee)
+    {
+        using var conn = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+        await conn.ExecuteAsync(
+            "CreateEmployee",
+            new
+            {
+                employee.FirstName,
+                employee.LastName,
+                employee.DOB,
+                employee.IsActive,
+                employee.EmployeeTitleID
+            },
+            commandType: CommandType.StoredProcedure);
+    }
 }

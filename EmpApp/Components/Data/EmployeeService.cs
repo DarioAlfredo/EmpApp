@@ -25,5 +25,10 @@ namespace EmpApp.Components.Data
         {
             await _employeeRepository.UpdateEmployeeAsync(employee);
         }
+
+        public async Task CreateEmployeeAsync(EmployeeDto employee)
+        {
+            await _employeeRepository.CreateEmployeeAsync(employee);
+        }
     }
 }
