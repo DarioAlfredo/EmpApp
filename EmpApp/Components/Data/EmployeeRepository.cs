@@ -56,4 +56,13 @@ public class EmployeeRepository : IEmployeeRepository
             },
             commandType: CommandType.StoredProcedure);
     }
+
+    public async Task DeleteEmployeeAsync(int employeeId)
+    {
+        using var conn = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+        await conn.ExecuteAsync(
+            "DeleteEmployee",
+            new { EmployeeID = employeeId },
+            commandType: CommandType.StoredProcedure);
+    }
 }

@@ -6,6 +6,7 @@
 @using EmpApp.Components.Services
 @inject IEmployeeService EmployeeService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <h1>Employees</h1>
 
@@ -37,6 +38,7 @@
                 <td>@emp.EmployeeTitle</td>
                 <td>
                     <button type="button" class="btn btn-primary" @onclick="() => EditEmployee(emp.EmployeeID)">Edit</button>
+                    <button type="button" class="btn btn-danger ms-2" @onclick="() => DeleteEmployee(emp.EmployeeID)">Delete</button>
                 </td>
             </tr>
         }
@@ -72,6 +74,16 @@
     private void AddEmployee()
     {
         NavigationManager.NavigateTo("/employees/add");
+    }
+
+    private async Task DeleteEmployee(int employeeId)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete employee #{employeeId}?"))
+        {
+            await EmployeeService.DeleteEmployeeAsync(employeeId);
+            employees = (await EmployeeService.GetEmployeesAsync()).ToList();
+            StateHasChanged();
+        }
     }
 
     private void PrevPage()

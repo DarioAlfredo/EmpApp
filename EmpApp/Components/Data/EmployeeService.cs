@@ -30,5 +30,10 @@ namespace EmpApp.Components.Data
         {
             await _employeeRepository.CreateEmployeeAsync(employee);
         }
+
+        public async Task DeleteEmployeeAsync(int employeeId)
+        {
+            await _employeeRepository.DeleteEmployeeAsync(employeeId);
+        }
     }
 }

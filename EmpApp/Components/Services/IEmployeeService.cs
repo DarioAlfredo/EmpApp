@@ -8,5 +8,6 @@ namespace EmpApp.Components.Services
         Task<EmployeeDto?> GetEmployeeByIdAsync(int id);
         Task UpdateEmployeeAsync(EmployeeDto employee);
         Task CreateEmployeeAsync(EmployeeDto employee);
+        Task DeleteEmployeeAsync(int employeeId);
     }
 }
