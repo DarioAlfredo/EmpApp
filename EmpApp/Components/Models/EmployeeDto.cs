@@ -6,7 +6,6 @@ namespace EmpApp.Components.Models
     {
         public int EmployeeID { get; set; }
 
-        [Required(ErrorMessage = "Title is required.")]
         public int? EmployeeTitleID { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
